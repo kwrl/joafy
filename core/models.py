@@ -22,6 +22,8 @@ class Song(models.Model):
     artist = models.ForeignKey(Artist)
     album = models.ForeignKey(Album, related_name='songs')
 
+    audio_file = models.FileField()
+
     def __str__(self):
         return self.name
 
