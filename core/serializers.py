@@ -8,14 +8,14 @@ class SongSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'track', 'album', 'artist')
 
 class ArtistSerializer(serializers.ModelSerializer):
-    albums = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    albums = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='album-detail')
     class Meta:
         model = Artist
         fields = ('id', 'name', 'albums')
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    songs = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    songs = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='song-detail')
     class Meta:
         model = Album
         fields = ('id', 'name', 'artist', 'songs')
