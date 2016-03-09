@@ -1,0 +1,5 @@
+django==1.9
+django-filter
+django-reversion==1.10.0
+djangorestframework
+markdown
