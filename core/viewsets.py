@@ -13,7 +13,7 @@ class SongViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
     chunk_size = 512*1024
-    
+
     @detail_route(url_path='stream/(?P<seek>\d+)',methods=['GET'])
     def stream(self, request, pk=None, seek=None):
 

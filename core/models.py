@@ -1,7 +1,5 @@
 from django.db import models
 
-#Sonk(id, name, track, albumid), Album(id, name, artistid), Artist(id, name)
-
 class Artist(models.Model):
     name = models.TextField()
 
@@ -14,6 +12,9 @@ class Album(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        unique_together = (('name', 'artist'),)
 
 class Song(models.Model):
     name = models.TextField()

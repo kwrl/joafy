@@ -3,3 +3,4 @@ django-filter
 django-reversion==1.10.0
 djangorestframework
 markdown
+mutagen
