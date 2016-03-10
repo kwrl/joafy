@@ -4,6 +4,7 @@ from .models import Song, Artist, Album
 
 class SongSerializer(serializers.ModelSerializer):
     artist = serializers.HyperlinkedRelatedField(many=False, read_only=True, view_name='artist-detail')
+    album = serializers.HyperlinkedRelatedField(many=False, read_only=True, view_name='album-detail')
     class Meta:
         model = Song
         fields = ('id', 'name', 'track', 'album', 'artist')
