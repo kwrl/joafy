@@ -12,26 +12,27 @@ from .serializers import SongSerializer, AlbumSerializer, ArtistSerializer
 class SongViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
-
+    chunk_size = 512*1024
+    
     @detail_route(url_path='stream/(?P<seek>\d+)',methods=['GET'])
     def stream(self, request, pk=None, seek=None):
-        if not seek:
-            return HttpResponse()
 
-        seek = int(seek)
-        
+        seek = float(seek)
+
+        #Ensure that seek is a valid percentage
         if seek < 0 or seek >= 100:
-            return HttpResponse()
+            seek = 0
 
         song = self.queryset.get(pk=pk)
 
         filesize = os.stat(song.audio_file.path).st_size
-        _file = open(song.audio_file.path, 'rb')
+        audio_file = open(song.audio_file.path, 'rb')
 
-        if not seek == 0:
-            _file.seek(int((seek*(filesize))/100.0))
+        if seek != 0:
+            audio_file.seek(int((seek*(filesize))/100.0))
 
-        return FileResponse(FileWrapper(_file, 8092), content_type='audio/mpeg')
+        #TODO: fix hardcoded content_type
+        return FileResponse(FileWrapper(audio_file, self.chunk_size), content_type='audio/mpeg')
 
 class AlbumViewSet(viewsets.ModelViewSet):
     queryset = Album.objects.all()
